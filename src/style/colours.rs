@@ -102,6 +102,7 @@ pub struct Git {
     pub renamed: Style,
     pub typechange: Style,
     pub ignored: Style,
+    pub alt_style: bool,
 }
 
 impl Colours {
@@ -179,6 +180,7 @@ impl Colours {
                 renamed:     Yellow.normal(),
                 typechange:  Purple.normal(),
                 ignored:     Style::default().dimmed(),
+                alt_style:   false,
             },
 
             punctuation:  Fixed(244).normal(),
@@ -288,6 +290,7 @@ impl Colours {
             "gd" => self.git.deleted              = pair.to_style(),
             "gv" => self.git.renamed              = pair.to_style(),
             "gt" => self.git.typechange           = pair.to_style(),
+            "gp" => self.git.alt_style            = true,
 
             "xx" => self.punctuation              = pair.to_style(),
             "da" => self.date                     = pair.to_style(),
@@ -330,6 +333,7 @@ impl render::GitColours for Colours {
     fn renamed(&self)       -> Style { self.git.renamed }
     fn type_change(&self)   -> Style { self.git.typechange }
     fn ignored(&self)       -> Style { self.git.ignored }
+    fn alt_style(&self)     -> bool  { self.git.alt_style }
 }
 
 impl render::GroupColours for Colours {

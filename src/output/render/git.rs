@@ -6,12 +6,21 @@ use fs::fields as f;
 
 impl f::Git {
     pub fn render(&self, colours: &Colours) -> TextCell {
-        TextCell {
-            width: DisplayWidth::from(2),
-            contents: vec![
-                self.staged.render(colours),
-                self.unstaged.render(colours),
-            ].into(),
+        if colours.alt_style() {
+            TextCell {
+                width: DisplayWidth::from(4),
+                contents: vec![
+                    colours.not_modified().paint("TODO"),
+                ].into(),
+            }
+        } else {
+            TextCell {
+                width: DisplayWidth::from(2),
+                contents: vec![
+                    self.staged.render(colours),
+                    self.unstaged.render(colours),
+                ].into(),
+            }
         }
     }
 }
@@ -40,6 +49,7 @@ pub trait Colours {
     fn renamed(&self) -> Style;
     fn type_change(&self) -> Style;
     fn ignored(&self) -> Style;
+    fn alt_style(&self) -> bool;
 }
 
 
